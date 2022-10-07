@@ -1,8 +1,22 @@
+
+import axios from 'axios'
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+
+const thing = document.querySelector(".cards");
+
+axios.get('https://api.github.com/users/bbybeefalo')
+.then(res => {
+  const card = cardPooperOuter(res.data);
+  thing.appendChild(card);
+})
+.catch(err => {
+  console.error(err);
+})
+.finally(() => console.log("yeehaw"));
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -49,6 +63,53 @@ const followersArray = [];
       </div>
     </div>
 */
+
+function cardPooperOuter (obj) {
+  const cardHolder = document.createElement("div");
+  const cardImg = document.createElement("img");
+  const userInfo = document.createElement("div");
+  const realName = document.createElement("h3");
+  const gitName = document.createElement("p");
+  const location = document.createElement("p");
+  const profile = document.createElement("p");
+  const pageLink = document.createElement("a");
+  const followers = document.createElement("p");
+  const following = document.createElement("p");
+  const bio = document.createElement("p");
+
+  cardHolder.className = "card";
+  userInfo.className = "card-info";
+  realName.className = "name";
+  gitName.className = "username";
+
+  cardHolder.appendChild(cardImg);
+  cardHolder.appendChild(userInfo);
+  userInfo.appendChild(realName);
+  userInfo.appendChild(gitName);
+  userInfo.appendChild(location);
+  userInfo.appendChild(profile);
+  profile.appendChild(pageLink);
+  userInfo.appendChild(followers);
+  userInfo.appendChild(following);
+  userInfo.appendChild(bio);
+
+  cardImg.src = obj.avatar_url;
+  realName.textContent = obj.name;
+  gitName.textContent = obj.login;
+  location.textContent = obj.location;
+  profile.textContent = "Profile:"
+  pageLink.href = obj.html_url;
+  followers.textContent = obj.followers;
+  following.textContent= obj.following;
+  bio.textContent = obj.bio;
+
+  return cardHolder
+
+}
+
+console.log(cardPooperOuter());
+
+
 
 /*
   List of LS Instructors Github username's:
